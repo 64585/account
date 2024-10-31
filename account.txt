@@ -1,0 +1,88 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// Base class
+class BankAccount {
+protected:
+    string accountHolder;
+    float balance;
+
+public:
+    // Member function to set account holder's name
+    void setAccountHolder(string name) {
+        accountHolder = name;
+    }
+
+    // Member function to get account holder's name
+    string getAccountHolder() {
+        return accountHolder;
+    }
+
+    // Member function to get current balance
+    float getBalance() {
+        return balance;
+    }
+
+    // Constructor to initialize account holder and balance
+    BankAccount(string name, float initialBalance) {
+        accountHolder = name;
+        balance = initialBalance;
+    }
+};
+
+// Derived class for savings account
+class SavingsAccount : public BankAccount {
+private:
+    float interestRate;
+
+public:
+    // Constructor to initialize savings account
+    SavingsAccount(string name, float initialBalance, float rate) 
+        : BankAccount(name, initialBalance), interestRate(rate) {}
+
+    // Function to calculate interest
+    float calculateInterest() {
+        return balance * interestRate;
+    }
+};
+
+// Derived class for checking account
+class CheckingAccount : public BankAccount {
+private:
+    float transactionFee;
+
+public:
+    // Constructor to initialize checking account
+    CheckingAccount(string name, float initialBalance, float fee) 
+        : BankAccount(name, initialBalance), transactionFee(fee) {}
+
+    // Function to deduct transaction fee
+    void deductFee() {
+        balance -= transactionFee;
+    }
+};
+
+int main() {
+    // Create a SavingsAccount object
+    SavingsAccount savings("Alice", 1000, 0.03);
+    
+    // Display account holder, balance, and calculated interest
+    cout << "Savings Account Holder: " << savings.getAccountHolder() << endl;
+    cout << "Balance: $" << savings.getBalance() << endl;
+    cout << "Calculated Interest: $" << savings.calculateInterest() << endl;
+
+    // Create a CheckingAccount object
+    CheckingAccount checking("Bob", 500, 2.5);
+    
+    // Display account holder and balance before fee deduction
+    cout << "\nChecking Account Holder: " << checking.getAccountHolder() << endl;
+    cout << "Balance before fee deduction: $" << checking.getBalance() << endl;
+
+    // Deduct transaction fee and display updated balance
+    checking.deductFee();
+    cout << "Balance after deducting transaction fee: $" << checking.getBalance() << endl;
+
+    return 0;
+}
